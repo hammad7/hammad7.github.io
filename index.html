@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SVD on JPEG image</title>
+  <meta charset="utf-8">
+  <meta name="description" content="SVD on JPEG image">
+  <meta name="author" content="Anonymous">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>SVD on JPEG image</h1>
+    <h2>Dimensionalty Reduction</h2>
+    <p>Anonymous<br/>Data Products' Student</p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>How this App works</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This App applies Singular Vector Decomposition on a JPEG image. It reduces the number of features to the input provided by the user through slider. Since the image can now be represented from less number of features its size is reduced. Features of all 3 colors i.e RED, GREEN and BLUE are reduced separately. The image is re-constructed to original dimensions but from a reduced set of features. The variance retained for each color is shown in the left sidebar panel. The variance tab shows plots that represent the portion of image data that is retained from the original image. This is plotted for each color. The user can upload any jpg image or select from dropdown list and then can download the reconstructed image.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <article data-timings="">
+    <pre><code class="r">img &lt;- readJPEG(&#39;./data/Flower.jpg&#39;)
+  y.r &lt;- img[,,1]
+  y.g &lt;- img[,,2]
+  y.b &lt;- img[,,3]
+  z.r &lt;&lt;- scale(y.r)
+  z.g &lt;&lt;- scale(y.g)
+  z.b &lt;&lt;- scale(y.b)
+  svd1.r &lt;&lt;- svd(z.r)
+  svd1.g &lt;&lt;- svd(z.g)
+  svd1.b &lt;&lt;- svd(z.b)
+  descale &lt;- function(mat,att){
+  t(t(mat)*att$&#39;scaled:scale&#39;+att$&#39;scaled:center&#39;)
+}
+g&lt;-5
+      p.r &lt;- descale(svd1.r$u[,1:g] %*% diag(svd1.r$d[1:g]) %*% t(svd1.r$v[,1:g]),attributes(z.r))
+      p.g &lt;- descale(svd1.g$u[,1:g] %*% diag(svd1.g$d[1:g]) %*% t(svd1.g$v[,1:g]),attributes(z.g))
+      p.b &lt;- descale(svd1.b$u[,1:g] %*% diag(svd1.b$d[1:g]) %*% t(svd1.b$v[,1:g]),attributes(z.b))
+
+      myp &lt;- array(c(p.r,p.g,p.b),dim=dim(img))
+      writeJPEG(myp,&#39;data/temp.jpg&#39;,1)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <article data-timings="">
+    <p>Eg:</p>
+
+<p>Lets take only 5 features and try to reconstruct this image from these.</p>
+
+<p><img src="data/Flower.jpg" alt="Original Image">
+Original Image</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <article data-timings="">
+    <p>Image after Reconstruction</p>
+
+<p><img src="data/temp.jpg" alt="Reconstruction"></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='How this App works'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='NA'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='NA'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='NA'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
