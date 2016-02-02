@@ -6,7 +6,7 @@ job         : Data Products' Student
 framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
 highlighter : highlight.js  # {highlight.js, prettify, highlight}
 hitheme     : tomorrow      # 
-widgets     : []            # {mathjax, quiz, bootstrap}
+widgets    : [bootstrap, quiz]          # {mathjax, quiz,bootstrap}
 mode        : selfcontained # {standalone, draft}
 knit        : slidify::knit2slides
 ---
@@ -18,7 +18,7 @@ This App applies Singular Vector Decomposition on a JPEG image. It reduces the n
 
 ---
 
-```{r }
+```{r, echo=FALSE}
 img <- readJPEG('./data/Flower.jpg')
   y.r <- img[,,1]
   y.g <- img[,,2]
@@ -32,7 +32,7 @@ img <- readJPEG('./data/Flower.jpg')
   descale <- function(mat,att){
   t(t(mat)*att$'scaled:scale'+att$'scaled:center')
 }
-g<-5
+g<-9
       p.r <- descale(svd1.r$u[,1:g] %*% diag(svd1.r$d[1:g]) %*% t(svd1.r$v[,1:g]),attributes(z.r))
       p.g <- descale(svd1.g$u[,1:g] %*% diag(svd1.g$d[1:g]) %*% t(svd1.g$v[,1:g]),attributes(z.g))
       p.b <- descale(svd1.b$u[,1:g] %*% diag(svd1.b$d[1:g]) %*% t(svd1.b$v[,1:g]),attributes(z.b))
@@ -41,19 +41,59 @@ g<-5
       writeJPEG(myp,'data/temp.jpg',1)
 ```
 
----
 
-Eg:
+## Eg:
 
-Lets take only 5 features and try to reconstruct this image from these.
+Lets take only 9 features and try to reconstruct this image         from these.
 
 
 ![Original Image](data/Flower.jpg)
+
+
 Original Image
+
+---&radio
+## Think before proceeding...
+
+Will the image quality degrade?
+
+1. _Yes_
+
+2. No
+
+3. Can't say
+
+*** .hint 
+Try the app yourself [here](https://web3.shinyapps.io/app1/)
+
+*** .explanation
+Yes
+
+---
+
+```{r, echo=FALSE}
+g<-2
+      p.r <- descale(svd1.r$u[,1:g] %*% diag(svd1.r$d[1:g]) %*% t(svd1.r$v[,1:g]),attributes(z.r))
+      p.g <- descale(svd1.g$u[,1:g] %*% diag(svd1.g$d[1:g]) %*% t(svd1.g$v[,1:g]),attributes(z.g))
+      p.b <- descale(svd1.b$u[,1:g] %*% diag(svd1.b$d[1:g]) %*% t(svd1.b$v[,1:g]),attributes(z.b))
+      
+      myp <- array(c(p.r,p.g,p.b),dim=dim(img))
+      writeJPEG(myp,'data/temp2.jpg',1)
+```
+
+
+## Image after Reconstruction
+
+![Reconstruction](data/temp.jpg)
 
 
 ---
 
-Image after Reconstruction
 
-![Reconstruction](data/temp.jpg)
+## Reconstructing the same image from 2 features
+
+![Reconstruction](data/temp2.jpg)
+
+[Try the App now](https://web3.shinyapps.io/app1/)
+
+[Source Code](https://github.com/hammad7/dataprod)
