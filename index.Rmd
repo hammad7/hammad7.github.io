@@ -18,14 +18,25 @@ This App applies Singular Vector Decomposition on a JPEG image. It reduces the n
 
 ---
 
-```{r, echo=FALSE}
+## Eg:
+
+Lets take only 9 features and try to reconstruct this image         from these.
+
+
+![Original Image](data/Flower.jpg)
+
+
+Original Image
+
+---
+
+## Here's the R code that we will execute
+
+```{r}
 img <- readJPEG('./data/Flower.jpg')
-  y.r <- img[,,1]
-  y.g <- img[,,2]
-  y.b <- img[,,3]
-  z.r <<- scale(y.r)
-  z.g <<- scale(y.g)
-  z.b <<- scale(y.b)
+  z.r <<- scale(img[,,1])
+  z.g <<- scale(img[,,2])
+  z.b <<- scale(img[,,3])
   svd1.r <<- svd(z.r)
   svd1.g <<- svd(z.g)
   svd1.b <<- svd(z.b)
@@ -41,16 +52,6 @@ g<-9
       writeJPEG(myp,'data/temp.jpg',1)
 ```
 
-
-## Eg:
-
-Lets take only 9 features and try to reconstruct this image         from these.
-
-
-![Original Image](data/Flower.jpg)
-
-
-Original Image
 
 ---&radio
 ## Think before proceeding...

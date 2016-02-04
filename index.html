@@ -71,6 +71,34 @@
 
 <slide class="" id="slide-3" style="background:;">
   <hgroup>
+    <h2>Here&#39;s the R code that we will execute</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code class="r">img &lt;- readJPEG(&#39;./data/Flower.jpg&#39;)
+  z.r &lt;&lt;- scale(img[,,1])
+  z.g &lt;&lt;- scale(img[,,2])
+  z.b &lt;&lt;- scale(img[,,3])
+  svd1.r &lt;&lt;- svd(z.r)
+  svd1.g &lt;&lt;- svd(z.g)
+  svd1.b &lt;&lt;- svd(z.b)
+  descale &lt;- function(mat,att){
+  t(t(mat)*att$&#39;scaled:scale&#39;+att$&#39;scaled:center&#39;)
+}
+g&lt;-9
+      p.r &lt;- descale(svd1.r$u[,1:g] %*% diag(svd1.r$d[1:g]) %*% t(svd1.r$v[,1:g]),attributes(z.r))
+      p.g &lt;- descale(svd1.g$u[,1:g] %*% diag(svd1.g$d[1:g]) %*% t(svd1.g$v[,1:g]),attributes(z.g))
+      p.b &lt;- descale(svd1.b$u[,1:g] %*% diag(svd1.b$d[1:g]) %*% t(svd1.b$v[,1:g]),attributes(z.b))
+
+      myp &lt;- array(c(p.r,p.g,p.b),dim=dim(img))
+      writeJPEG(myp,&#39;data/temp.jpg&#39;,1)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
     <h2>Think before proceeding...</h2>
   </hgroup>
   <article data-timings="">
@@ -102,7 +130,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-4" style="background:;">
+<slide class="" id="slide-5" style="background:;">
   <hgroup>
     <h2>Image after Reconstruction</h2>
   </hgroup>
@@ -113,7 +141,7 @@
   <!-- Presenter Notes -->
 </slide>
 
-<slide class="" id="slide-5" style="background:;">
+<slide class="" id="slide-6" style="background:;">
   <hgroup>
     <h2>Reconstructing the same image from 2 features</h2>
   </hgroup>
@@ -146,20 +174,26 @@
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=3 title='Think before proceeding...'>
+        data-slide=3 title='Here&#39;s the R code that we will execute'>
          3
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=4 title='Image after Reconstruction'>
+        data-slide=4 title='Think before proceeding...'>
          4
       </a>
     </li>
     <li>
       <a href="#" target="_self" rel='tooltip' 
-        data-slide=5 title='Reconstructing the same image from 2 features'>
+        data-slide=5 title='Image after Reconstruction'>
          5
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=6 title='Reconstructing the same image from 2 features'>
+         6
       </a>
     </li>
   </ul>
